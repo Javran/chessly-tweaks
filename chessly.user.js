@@ -15,7 +15,18 @@
 
   document.addEventListener('keydown', e => {
     const {href} = window.location
-    if (href && href.endsWith('drill-shuffle') && e.key === 'f') {
+    if (typeof href !== 'string') {
+      return
+    }
+
+    if (
+      ( href.endsWith('drill-shuffle') || href.endsWith('quiz-shuffle')
+      ) && e.key === 'f'
+    ) {
+      /*
+        Press 'f' to continue to next one,
+        which also happens to map to 'Submit' or 'Retry' buttons.
+       */
       $('button.PrimaryActionButton_button__MrAca').click()
     }
   })
