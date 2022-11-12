@@ -1,13 +1,15 @@
 // ==UserScript==
-// @name Chessly tweaks
+// @name Javran's Chessly Tweaks
+// @description Some random Chessly tweaks.
+// @homepage https://github.com/Javran/chessly-tweaks
 // @namespace javran.github.io
 // @version 0.1
-// @description Some random tweaks.
 // @author Javran Cheng
 // @match https://chessly.com/*
 // @grant none
 // @require https://code.jquery.com/jquery-3.6.1.min.js
 // ==/UserScript==
+
 const $ = window.$;
 
 $(() => {
