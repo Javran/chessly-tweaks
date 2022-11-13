@@ -3,7 +3,7 @@
 // @description Some random Chessly tweaks.
 // @homepage https://github.com/Javran/chessly-tweaks
 // @namespace javran.github.io
-// @version 0.2
+// @version 0.3
 // @author Javran Cheng
 // @match https://chessly.com/*
 // @grant none
@@ -13,6 +13,9 @@
 
 (() => {
   const {$, _} = window
+
+  const BTN1_CLS = 'PrimaryActionButton_button__MrAca'
+  const BTN2_CLS = 'SecondaryActionButton_button__OAN7b'
 
   document.addEventListener('keydown', e => {
     const {href} = window.location
@@ -28,7 +31,7 @@
         Press 'f' to continue to next one,
         which also happens to map to 'Submit' or 'Retry' buttons.
        */
-      $('button.PrimaryActionButton_button__MrAca').click()
+      $(`button.${BTN1_CLS}`).click()
     }
 
     /*
@@ -49,7 +52,7 @@
 
       switch (e.key) {
         case 'f': {
-          const btns = $('.PrimaryActionButton_button__MrAca').toArray().map(
+          const btns = $(`.${BTN1_CLS}`).toArray().map(
             d => {
               const t = $(d).text()
               const pri =
@@ -68,7 +71,7 @@
           break
         }
         case 'r': {
-          $('a.SecondaryActionButton_button__OAN7b').get(0).click()
+          $(`a.${BTN2_CLS}`).get(0).click()
           break
         }
       }
