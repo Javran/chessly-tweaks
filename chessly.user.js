@@ -6,7 +6,8 @@
 // @version 0.3
 // @author Javran Cheng
 // @match https://chessly.com/*
-// @grant none
+// @grant GM.setValue
+// @grant GM.getValue
 // @require https://code.jquery.com/jquery-3.6.1.min.js
 // @require https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js
 // ==/UserScript==
@@ -16,6 +17,9 @@
 
   const BTN1_CLS = 'PrimaryActionButton_button__MrAca'
   const BTN2_CLS = 'SecondaryActionButton_button__OAN7b'
+
+  // Key for LocalStorage.
+  const LS_KEY = 'github.com/Javran/chessly-tweaks'
 
   document.addEventListener('keydown', e => {
     const {href} = window.location
