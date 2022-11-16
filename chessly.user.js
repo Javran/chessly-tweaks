@@ -66,12 +66,6 @@
             so instead let's just inject a bunch of buttons
             if '1' is pressed.
            */
-
-          // TODO: impl this later for quiz shuffle.
-          if (isQuizShuffle) {
-            return
-          }
-
           const setupBar = $(`.${SETUP_VIEW_CLS}`)
 
           if (!setupBar) {
