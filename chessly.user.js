@@ -3,7 +3,7 @@
 // @description Some random Chessly tweaks.
 // @homepage https://github.com/Javran/chessly-tweaks
 // @namespace javran.github.io
-// @version 0.3
+// @version 0.4
 // @author Javran Cheng
 // @match https://chessly.com/*
 // @grant GM_setValue
