@@ -17,8 +17,9 @@
 
   const BTN1_CLS = 'PrimaryActionButton_button__MrAca'
   const BTN2_CLS = 'SecondaryActionButton_button__OAN7b'
+  const SETUP_VIEW_CLS = 'SetupView_buttons____swj'
 
-  // Key for LocalStorage.
+  // Key for localStorage.
   const LS_KEY = 'github.com/Javran/chessly-tweaks'
 
   document.addEventListener('keydown', e => {
@@ -27,15 +28,66 @@
       return
     }
 
-    if (
-      ( href.endsWith('drill-shuffle') || href.endsWith('quiz-shuffle')
-      ) && e.key === 'f'
-    ) {
-      /*
-        Press 'f' to continue to next one,
-        which also happens to map to 'Submit' or 'Retry' buttons.
-       */
-      $(`button.${BTN1_CLS}`).click()
+    const isDrillShuffle = href.endsWith('drill-shuffle')
+    const isQuizShuffle = href.endsWith('quiz-shuffle')
+
+    if (isDrillShuffle || isQuizShuffle) {
+      switch (e.key) {
+        case 'f': {
+          /*
+            Press 'f' to continue to next one,
+            which also happens to map to 'Submit' or 'Retry' buttons.
+           */
+          $(`button.${BTN1_CLS}`).click()
+          break
+        }
+        case '1': {
+          /*
+            No good way to tell if we are at configuration screen
+            or the session is already started by looking at URL,
+            so instead let's just inject a bunch of buttons
+            if '1' is pressed.
+           */
+
+          // TODO: impl this later for quiz shuffle.
+          if (isQuizShuffle) {
+            return
+          }
+
+          const setupBar = $(`.${SETUP_VIEW_CLS}`)
+
+          if (!setupBar) {
+            return
+          }
+
+          if (!$('.javran-tweaks', setupBar).length) {
+            $(setupBar).prepend($(`
+              <div class="javran-tweaks" style="padding-right: 20px">
+                <span>Preset</span>
+                <button class="act-save">Save</button>
+                <button class="act-load">Load</button>
+                <button class="act-load-and-go">Load & Go</button>
+              </div>`))
+
+            $('.javran-tweaks .act-save', setupBar).click(e => {
+              e.preventDefault()
+              alert('save')
+            })
+
+            $('.javran-tweaks .act-load', setupBar).click(e => {
+              e.preventDefault()
+              alert('load')
+            })
+
+            $('.javran-tweaks .act-load-and-go', setupBar).click(e => {
+              e.preventDefault()
+              alert('go')
+            })
+
+          }
+
+        }
+      }
     }
 
     /*
