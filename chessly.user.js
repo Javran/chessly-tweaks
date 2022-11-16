@@ -18,6 +18,7 @@
   const BTN1_CLS = 'PrimaryActionButton_button__MrAca'
   const BTN2_CLS = 'SecondaryActionButton_button__OAN7b'
   const SETUP_VIEW_CLS = 'SetupView_buttons____swj'
+  const SETUP_LABEL_CLS = 'CheckBox_checkbox__CFxbL'
 
   // Key for localStorage.
   const LS_KEY = 'github.com/Javran/chessly-tweaks'
@@ -91,12 +92,7 @@
               const selected = []
 
               $("fieldset input[type='checkbox']").each((i, x) => {
-                if (i === 0) {
-                  // Ignore 'Select all'
-                  return
-                }
-
-                if ($(x).is(':checked')) {
+                if (i !== 0 && $(x).is(':checked')) {
                   selected.push(i)
                 }
               })
@@ -106,25 +102,42 @@
               }))
             })
 
-            $('.javran-tweaks .act-load', setupBar).click(e => {
-              e.preventDefault()
+            // Returns true if loads successfully.
+            const loadPreset = () => {
               const selected = _.get(Config.get(), [pathname])
               if (!Array.isArray(selected)) {
-                return
+                return false
               }
+
+              const labels = $(`.${SETUP_LABEL_CLS}`).toArray()
 
               $("fieldset input[type='checkbox']").each((i, x) => {
                 if (i === 0) {
-                  // Ignore 'Select all'
                   return
                 }
-                $(x).prop('checked', selected.includes(i))
+                const shouldSel = selected.includes(i)
+                const actualSel = $(x).is(':checked')
+
+                if (shouldSel !== actualSel) {
+                  /*
+                    Note that simply clicking the checkbox won't work,
+                    we should find the label element and click on it instead.
+                   */
+                  $(labels[i]).click()
+                }
               })
+
+              return true
+            }
+
+            $('.javran-tweaks .act-load', setupBar).click(e => {
+              e.preventDefault()
+              loadPreset()
             })
 
             $('.javran-tweaks .act-load-and-go', setupBar).click(e => {
               e.preventDefault()
-              alert('go')
+              loadPreset() && $(`button.${BTN1_CLS}`).click()
             })
 
           }
