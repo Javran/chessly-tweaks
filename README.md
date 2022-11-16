@@ -10,3 +10,9 @@ For now just supporting some key presses in individual course sections / Drill S
 
 - Press `f` to "move forward" (click on "Try again" / "Submit" / "Next", whichever appears first).
 - Press `r` to "move backward".
+
+On "Drill Shuffle" / "Quiz Shuffle" configuration page, press `1` to inject 3 extra buttons:
+
+- `Save`: saves current configuration.
+- `Load`: loads previously saved configuration.
+- `Load & Go`: load and click "Continue" button.
