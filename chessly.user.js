@@ -6,8 +6,8 @@
 // @version 0.3
 // @author Javran Cheng
 // @match https://chessly.com/*
-// @grant GM.setValue
-// @grant GM.getValue
+// @grant GM_setValue
+// @grant GM_getValue
 // @require https://code.jquery.com/jquery-3.6.1.min.js
 // @require https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js
 // ==/UserScript==
@@ -22,8 +22,25 @@
   // Key for localStorage.
   const LS_KEY = 'github.com/Javran/chessly-tweaks'
 
+  const Config = {
+    get: () => {
+      const rawConf = GM_getValue(LS_KEY)
+      if (typeof rawConf !== 'string') {
+        return {}
+      }
+      const conf = JSON.parse(rawConf)
+      return conf
+    },
+    set: conf =>
+      GM_setValue(LS_KEY, JSON.stringify(conf)),
+    modify: modifier => {
+      const old = Config.get()
+      Config.set(modifier(old))
+    },
+  }
+
   document.addEventListener('keydown', e => {
-    const {href} = window.location
+    const {href, pathname} = window.location
     if (typeof href !== 'string') {
       return
     }
@@ -71,12 +88,38 @@
 
             $('.javran-tweaks .act-save', setupBar).click(e => {
               e.preventDefault()
-              alert('save')
+              const selected = []
+
+              $("fieldset input[type='checkbox']").each((i, x) => {
+                if (i === 0) {
+                  // Ignore 'Select all'
+                  return
+                }
+
+                if ($(x).is(':checked')) {
+                  selected.push(i)
+                }
+              })
+              Config.modify(conf => ({
+                ...conf,
+                [`${pathname}`]: selected,
+              }))
             })
 
             $('.javran-tweaks .act-load', setupBar).click(e => {
               e.preventDefault()
-              alert('load')
+              const selected = _.get(Config.get(), [pathname])
+              if (!Array.isArray(selected)) {
+                return
+              }
+
+              $("fieldset input[type='checkbox']").each((i, x) => {
+                if (i === 0) {
+                  // Ignore 'Select all'
+                  return
+                }
+                $(x).prop('checked', selected.includes(i))
+              })
             })
 
             $('.javran-tweaks .act-load-and-go', setupBar).click(e => {
